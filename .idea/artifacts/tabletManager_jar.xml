@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="tabletManager:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/tabletManager_jar</output-path>
+    <root id="archive" name="tabletManager.jar">
+      <element id="module-output" name="tabletManager" />
+    </root>
+  </artifact>
+</component>
