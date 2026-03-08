@@ -8,12 +8,7 @@ public class PopupMenuFactory {
         PopupMenu popupMenu = new PopupMenu();
 
         MenuItem connect = new MenuItem("connect");
-        connect.addActionListener(e -> {
-            ADBComnmandUtil.runCommand("adb shell su -c service call connectivity 30 i32 1", true);
-            ADBComnmandUtil.runCommand("adb shell monkey -p ph.spacedesk.beta 1", true);
-            ADBComnmandUtil.runCommand("adb shell input keyevent 26", true);
-            ADBComnmandUtil.runCommand("adb shell input touchscreen swipe 643 643 643 80", true);
-        });
+        connect.addActionListener(e -> ADBComnmandUtil.connect());
 
         MenuItem enableTethering = new MenuItem("Enable Tethering");
         enableTethering.addActionListener(e -> ADBComnmandUtil.runCommand("adb shell su -c service call connectivity 30 i32 1") );
