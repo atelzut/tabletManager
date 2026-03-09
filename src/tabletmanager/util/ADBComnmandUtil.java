@@ -1,15 +1,17 @@
 package tabletmanager.util;
 
+import tabletmanager.Constants;
+
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class ADBComnmandUtil {
 
     public static void connect(){
 
-        runCommand("adb shell su -c service call connectivity 30 i32 1", true);
-        runCommand("adb shell monkey -p ph.spacedesk.beta 1", true);
-        runCommand("adb shell input keyevent 26", true);
-        //runCommand("adb shell input touchscreen swipe 643 643 643 80", true);
+        runCommand(Constants.ENABLE_TETHERING, true);
+        runCommand(Constants.OPEN_SPACE_DESK, true);
+        runCommand(Constants.PRESS_POWER_BUTTON, true);
     }
 
     public static void runCommand(String command) {
@@ -22,7 +24,7 @@ public class ADBComnmandUtil {
         try {
             Process process = (new ProcessBuilder(command.split(" "))).start();
             if (waitFor)
-                process.waitFor();
+                process.waitFor(10, TimeUnit.SECONDS);
             process.getInputStream().transferTo(System.out);
             process.getErrorStream().transferTo(System.err);
 

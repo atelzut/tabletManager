@@ -2,6 +2,7 @@ package tabletmanager;
 
 public class Constants {
 
+    public static String ADB_USB ="adb usb";
     public static String ENABLE_TETHERING ="adb shell su -c service call connectivity 30 i32 1";
     public static String DISABLE_TETHERING ="adb shell su -c service call connectivity 30 i32 0";
     public static String OPEN_SPACE_DESK="adb shell monkey -p ph.spacedesk.beta 1";
