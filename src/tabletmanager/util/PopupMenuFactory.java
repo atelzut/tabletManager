@@ -1,5 +1,7 @@
 package tabletmanager.util;
 
+import tabletmanager.Constants;
+
 import java.awt.*;
 
 public class PopupMenuFactory {
@@ -11,31 +13,31 @@ public class PopupMenuFactory {
         connect.addActionListener(e -> ADBComnmandUtil.connect());
 
         MenuItem enableTethering = new MenuItem("Enable Tethering");
-        enableTethering.addActionListener(e -> ADBComnmandUtil.runCommand("adb shell su -c service call connectivity 30 i32 1") );
+        enableTethering.addActionListener(e -> ADBComnmandUtil.runCommand(Constants.ENABLE_TETHERING) );
 
         MenuItem disableTethering = new MenuItem("Disable Tethering");
-        disableTethering.addActionListener(e ->  ADBComnmandUtil.runCommand("adb shell su -c service call connectivity 30 i32 0"));
+        disableTethering.addActionListener(e ->  ADBComnmandUtil.runCommand(Constants.DISABLE_TETHERING));
 
         MenuItem openSpaceDesk = new MenuItem("open space desk");
-        openSpaceDesk.addActionListener(e ->  ADBComnmandUtil.runCommand("adb shell monkey -p ph.spacedesk.beta 1"));
+        openSpaceDesk.addActionListener(e ->  ADBComnmandUtil.runCommand(Constants.OPEN_SPACE_DESK));
 
         MenuItem closeSpaceDesk = new MenuItem("close space desk");
-        closeSpaceDesk.addActionListener(e ->  ADBComnmandUtil.runCommand("adb shell am force-stop ph.spacedesk.beta"));
+        closeSpaceDesk.addActionListener(e ->  ADBComnmandUtil.runCommand(Constants.CLOSE_SPACE_DESK));
 
         MenuItem unlockScreen = new MenuItem("unlock screen");
         unlockScreen.addActionListener(e -> {
-            ADBComnmandUtil.runCommand("adb shell input keyevent 26", true);
-            ADBComnmandUtil.runCommand("adb shell input touchscreen swipe 643 643 643 80", true);
+            ADBComnmandUtil.runCommand(Constants.PRESS_POWER_BUTTON, true);
+            ADBComnmandUtil.runCommand(Constants.SWIPE_LOCK_SEQUENCE, true);
         });
 
         MenuItem tapIp = new MenuItem("Tap on IP");
-        tapIp.addActionListener(e ->  ADBComnmandUtil.runCommand("adb shell input tap 191 245"));
+        tapIp.addActionListener(e ->  ADBComnmandUtil.runCommand(Constants.TAP_IP));
 
         MenuItem shoutDown = new MenuItem("SHOUTDOWN");
-        shoutDown.addActionListener(e -> ADBComnmandUtil.runCommand("adb shell reboot -p"));
+        shoutDown.addActionListener(e -> ADBComnmandUtil.runCommand(Constants.SHOUTDOWN));
 
         MenuItem reboot = new MenuItem("REBOOT");
-        reboot.addActionListener(e -> ADBComnmandUtil.runCommand("adb reboot"));
+        reboot.addActionListener(e -> ADBComnmandUtil.runCommand(Constants.REBOOT));
 
         popupMenu.add(connect);
         popupMenu.add(enableTethering);
