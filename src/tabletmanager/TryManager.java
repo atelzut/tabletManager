@@ -16,6 +16,11 @@ public class TryManager {
 
         TrayIcon trayIcon = new TrayIcon(image, "Tablet Manager", popupMenu);
         trayIcon.setImageAutoSize(true);
+        trayIcon.displayMessage(
+                "TabletManager",
+                "Application started",
+                TrayIcon.MessageType.INFO
+        );
 
         SystemTray.getSystemTray().add(trayIcon);
 
