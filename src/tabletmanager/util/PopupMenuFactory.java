@@ -9,47 +9,38 @@ public class PopupMenuFactory {
     public static PopupMenu createPopupMenu() {
         PopupMenu popupMenu = new PopupMenu();
 
-        MenuItem connect = new MenuItem("connect");
-        connect.addActionListener(e -> ADBComnmandUtil.connect());
+        add(popupMenu, "Restart Server", () -> ADBComnmandUtil.runCommand(Constants.ADB_USB,true));
 
-        MenuItem enableTethering = new MenuItem("Enable Tethering");
-        enableTethering.addActionListener(e -> ADBComnmandUtil.runCommand(Constants.ENABLE_TETHERING) );
-
-        MenuItem disableTethering = new MenuItem("Disable Tethering");
-        disableTethering.addActionListener(e ->  ADBComnmandUtil.runCommand(Constants.DISABLE_TETHERING));
-
-        MenuItem openSpaceDesk = new MenuItem("open space desk");
-        openSpaceDesk.addActionListener(e ->  ADBComnmandUtil.runCommand(Constants.OPEN_SPACE_DESK));
-
-        MenuItem closeSpaceDesk = new MenuItem("close space desk");
-        closeSpaceDesk.addActionListener(e ->  ADBComnmandUtil.runCommand(Constants.CLOSE_SPACE_DESK));
-
-        MenuItem unlockScreen = new MenuItem("unlock screen");
-        unlockScreen.addActionListener(e -> {
+        add(popupMenu, "connect", () -> {
+            ADBComnmandUtil.runCommand(Constants.ENABLE_TETHERING, true);
+            ADBComnmandUtil.runCommand(Constants.OPEN_SPACE_DESK, true);
             ADBComnmandUtil.runCommand(Constants.PRESS_POWER_BUTTON, true);
-            ADBComnmandUtil.runCommand(Constants.SWIPE_LOCK_SEQUENCE, true);
         });
 
-        MenuItem tapIp = new MenuItem("Tap on IP");
-        tapIp.addActionListener(e ->  ADBComnmandUtil.runCommand(Constants.TAP_IP));
+        add(popupMenu, "Enable Tethering", () -> ADBComnmandUtil.runCommand(Constants.ENABLE_TETHERING,true));
 
-        MenuItem shoutDown = new MenuItem("SHOUTDOWN");
-        shoutDown.addActionListener(e -> ADBComnmandUtil.runCommand(Constants.SHOUTDOWN));
+        add(popupMenu, "Disable Tethering", () -> ADBComnmandUtil.runCommand(Constants.DISABLE_TETHERING,true));
 
-        MenuItem reboot = new MenuItem("REBOOT");
-        reboot.addActionListener(e -> ADBComnmandUtil.runCommand(Constants.REBOOT));
+        add(popupMenu, "open space desk", () -> ADBComnmandUtil.runCommand(Constants.OPEN_SPACE_DESK,true));
 
-        popupMenu.add(connect);
-        popupMenu.add(enableTethering);
-        popupMenu.add(disableTethering);
-        popupMenu.add(openSpaceDesk);
-        popupMenu.add(closeSpaceDesk);
-        popupMenu.add(unlockScreen);
-        popupMenu.add(unlockScreen);
-        popupMenu.add(tapIp);
-        popupMenu.add(shoutDown);
-        popupMenu.add(reboot);
+        add(popupMenu, "close space desk", () -> ADBComnmandUtil.runCommand(Constants.CLOSE_SPACE_DESK,true));
+
+        add(popupMenu, "unlock screen", () -> ADBComnmandUtil.runCommand(Constants.PRESS_POWER_BUTTON, true));
+
+        add(popupMenu, "Tap on IP", () -> ADBComnmandUtil.runCommand(Constants.TAP_IP,true));
+
+        add(popupMenu, "SHOUTDOWN", () -> ADBComnmandUtil.runCommand(Constants.SHOUTDOWN,true));
+
+        add(popupMenu, "REBOOT", () -> ADBComnmandUtil.runCommand(Constants.REBOOT,true));
+        add(popupMenu, "quit", () -> System.exit(0));
 
         return popupMenu;
+    }
+
+    private static void add(PopupMenu popupMenu, String label, Runnable action) {
+        MenuItem item = new MenuItem(label);
+        item.addActionListener(e -> new Thread(action).start());
+        popupMenu.add(item);
+
     }
 }

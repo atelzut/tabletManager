@@ -1,32 +1,30 @@
 package tabletmanager.util;
 
-import tabletmanager.Constants;
-
-import java.io.IOException;
+import java.io.*;
 import java.util.concurrent.TimeUnit;
 
 public class ADBComnmandUtil {
 
-    public static void connect(){
 
-        runCommand(Constants.ENABLE_TETHERING, true);
-        runCommand(Constants.OPEN_SPACE_DESK, true);
-        runCommand(Constants.PRESS_POWER_BUTTON, true);
+
+    public static String runCommand(String command) {
+
+        return runCommand(command, false);
     }
 
-    public static void runCommand(String command) {
-
-        runCommand(command, false);
-    }
-
-    public static void runCommand(String command, boolean waitFor) {
-
+    public static String runCommand(String command, boolean waitFor) {
+            System.out.println("Running: " + command);
         try {
             Process process = (new ProcessBuilder(command.split(" "))).start();
-            if (waitFor)
-                process.waitFor(10, TimeUnit.SECONDS);
-            process.getInputStream().transferTo(System.out);
-            process.getErrorStream().transferTo(System.err);
+            
+            if (waitFor &&  !process.waitFor(10, TimeUnit.SECONDS))
+                throw new IOException("ADB command failed with exit code " + false);
+            InputStream inputStream = process.getInputStream();
+
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            inputStream.transferTo(System.out);
+            inputStream.transferTo(System.err);
+            return output.toString();
 
         } catch (InterruptedException e) {
 
@@ -35,7 +33,7 @@ public class ADBComnmandUtil {
 
         } catch (IOException e1) {
 
-            throw new RuntimeException(e1.getCause());
+            throw new RuntimeException(e1);
 
         }
     }
